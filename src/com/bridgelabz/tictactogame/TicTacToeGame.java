@@ -8,7 +8,7 @@ public class TicTacToeGame {
 		char[] gameBoard=createGameBoard();
 		char userLetter = chooseUserLetter(userInput);
 		char computerLetter=(userLetter=='X')? 'O' : 'X';
-		int userCell=showBoard(userInput);
+		showBoard(gameBoard);
 		
 	}
 	//Creating Game Board
@@ -23,9 +23,13 @@ public class TicTacToeGame {
 		System.out.println("Choose player symbol 'X' or 'O'");
 		return userInput.next().toUpperCase().charAt(0);
 	}
-	// UC3 choosing User Cell
-	public static int showBoard(Scanner userInput) {
-		System.out.println("choose valid cell 1-9");
-		return userInput.nextInt();
+	// UC3 Displaying Board
+	public static void showBoard(char[] gameBoard) {
+		System.out.println("Displaying Board");
+		System.out.println(gameBoard[1]+"|"+gameBoard[2]+"|"+gameBoard[3]);
+		System.out.println("_"+" "+"_"+" "+"_");
+		System.out.println(gameBoard[4]+"|"+gameBoard[5]+"|"+gameBoard[6]);
+		System.out.println("_"+" "+"_"+" "+"_");
+		System.out.println(gameBoard[7]+"|"+gameBoard[8]+"|"+gameBoard[9]);
 	}
 }
