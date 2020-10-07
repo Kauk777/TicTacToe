@@ -1,9 +1,9 @@
+import java.util.Arrays;
 
 public class TicTacToeGame {
 
 	public static void main(String[] args) {
-		System.out.println("Welcome to tic tac toe Game");
-
+		char[] gameBoard=new char[10];
+		Arrays.fill(gameBoard, ' ');
 	}
-
 }
