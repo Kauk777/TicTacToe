@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class TicTacToeGame {
 	public static List<Integer> playerPositions=new ArrayList<>();
+	public static List<Integer> computerPositions=new ArrayList<>();
 	public static void main(String[] args) {
 		Scanner userInput = new Scanner(System.in);
 		char[] gameBoard = createGameBoard();
@@ -20,6 +21,8 @@ public class TicTacToeGame {
 		while(flag) {
 			int getUserMove = userMove(userInput, gameBoard, userLetter);
 			playerPositions.add(getUserMove);
+			int getComputerMove = computerMove(gameBoard, computerLetter);
+			computerPositions.add(getComputerMove);
 			flag=winningCondition();
 		}
 	}
@@ -73,7 +76,7 @@ public class TicTacToeGame {
 		return gameBoard[index] == ' ';
 	}
 
-	// Uc6
+	// UC6 checking first turn
 	public static String tossing(Scanner userInput) {
 		System.out.println("1-Head and 2-Tail");
 		System.out.println("Choose head or tail");
@@ -85,7 +88,26 @@ public class TicTacToeGame {
 		else
 			return "Computer";
 	}
-	// UC7 
+	
+	// UC8 computer move
+	public static int computerMove(char[] gameBoard, char computerLetter) {
+		while (true) {
+			System.out.println("Computer Entered");
+			Random rand = new Random();
+			int computerPosition = rand.nextInt(9) + 1;
+			if (isPositionFree(gameBoard, computerPosition)) {
+				gameBoard[computerPosition] = computerLetter;
+				showBoard(gameBoard);
+				return computerPosition;
+			}
+			else {
+				System.out.println("Position already filled Renter the postion");
+				continue;
+			}
+		}
+	}
+	
+	// UC7 winning criteria
 	public static boolean winningCondition() {
 		List<Integer> topRow=Arrays.asList(1,2,3);
 		List<Integer> midRow=Arrays.asList(4,5,6);
@@ -108,9 +130,13 @@ public class TicTacToeGame {
 		
 		for(List l:winningList) {
 			if(playerPositions.containsAll(l)) {
-				System.out.println("Player Won!!");
+				System.out.println("Player Won!!!");
 				return false;
 			}
+			else if(computerPositions.containsAll(l)) {
+				System.out.println("Computer Won!!!");
+				return false;
+			}	
 		}
 		return true;
 	}
