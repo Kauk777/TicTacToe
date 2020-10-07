@@ -11,6 +11,13 @@ public class TicTacToeGame {
 		char computerLetter=(userLetter=='X')? 'O' : 'X';
 		showBoard(gameBoard);
 		int getUserMove=userMove(userInput,gameBoard,userLetter);
+		System.out.println("Enter next move");
+		int nextMove=userInput.nextInt();
+		if(isPositionFree(gameBoard,nextMove))
+			getUserMove=userMove(userInput,gameBoard,userLetter);
+		else
+			System.out.println("Position not free");
+		showBoard(gameBoard);
 	}
 	//Creating Game Board
 	public static char[] createGameBoard() {
