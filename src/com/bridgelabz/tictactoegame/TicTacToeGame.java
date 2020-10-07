@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class TicTacToeGame {
 	public static List<Integer> playerPositions = new ArrayList<>();
 	public static List<Integer> computerPositions = new ArrayList<>();
+	public static int count = 0;
 
 	public static void main(String[] args) {
 		Scanner userInput = new Scanner(System.in);
@@ -22,23 +23,32 @@ public class TicTacToeGame {
 			while (true) {
 				int getUserMove = userMove(userInput, gameBoard, userLetter);
 				playerPositions.add(getUserMove);
-				if(!winningCondition())
+				if (!winningCondition())
 					break;
 				int getComputerMove = computerMove(gameBoard, computerLetter);
 				computerPositions.add(getComputerMove);
-				if(!winningCondition())
+				if (!winningCondition())
 					break;
+				if (count == 9) {
+					System.out.println("Game Tied!!");
+					break;
+				}
+
 			}
 		else
 			while (true) {
 				int getComputerMove = computerMove(gameBoard, computerLetter);
 				computerPositions.add(getComputerMove);
-				if(!winningCondition())
+				if (!winningCondition())
 					break;
 				int getUserMove = userMove(userInput, gameBoard, userLetter);
 				playerPositions.add(getUserMove);
-				if(!winningCondition())
+				if (!winningCondition())
 					break;
+				if (count == 9) {
+					System.out.println("Game Tied or Board filled!!");
+					break;
+				}
 			}
 	}
 
@@ -56,7 +66,7 @@ public class TicTacToeGame {
 		return userInput.next().toUpperCase().charAt(0);
 	}
 
-	// UC3 Displaying Board
+	// Displaying Board
 	public static void showBoard(char[] gameBoard) {
 		System.out.println("Displaying Board");
 		System.out.println(" " + gameBoard[1] + "|" + gameBoard[2] + "|" + gameBoard[3]);
@@ -66,16 +76,15 @@ public class TicTacToeGame {
 		System.out.println(" " + gameBoard[7] + "|" + gameBoard[8] + "|" + gameBoard[9]);
 	}
 
-	// UC4 User making move
+	// User move
 	public static int userMove(Scanner userInput, char[] gameBoard, char userLetter) {
 		Integer validCells[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		while (true) {
 			System.out.println("Enter user position 1-9");
-			System.out.println("1. Enter the available corner position 1,3,7,9");
-			System.out.println("2. If corner not available then take centre 5");
 			int userPosition = userInput.nextInt();
 			if (Arrays.asList(validCells).contains(userPosition) && isPositionFree(gameBoard, userPosition)) {
 				gameBoard[userPosition] = userLetter;
+				count++;
 				showBoard(gameBoard);
 				return userPosition;
 			} else if (!Arrays.asList(validCells).contains(userPosition)) {
@@ -83,17 +92,19 @@ public class TicTacToeGame {
 				continue;
 			} else {
 				System.out.println("Position already filled Renter the postion");
+				if (count == 9)
+					return 0;
 				continue;
 			}
 		}
 	}
 
-	// UC 5 checking empty positon
+	// checking empty positon
 	public static boolean isPositionFree(char[] gameBoard, int index) {
 		return gameBoard[index] == ' ';
 	}
 
-	// UC6 checking first turn
+	// checking first turn
 	public static String tossing(Scanner userInput) {
 		System.out.println("1-Head and 2-Tail");
 		System.out.println("Choose head or tail");
@@ -106,7 +117,7 @@ public class TicTacToeGame {
 			return "Computer";
 	}
 
-	// UC8 computer move
+	// Computer move
 	public static int computerMove(char[] gameBoard, char computerLetter) {
 		while (true) {
 			System.out.println("Computer Entered");
@@ -115,15 +126,18 @@ public class TicTacToeGame {
 			if (isPositionFree(gameBoard, computerPosition)) {
 				gameBoard[computerPosition] = computerLetter;
 				showBoard(gameBoard);
+				count++;
 				return computerPosition;
 			} else {
 				System.out.println("Position already filled Renter the postion");
+				if (count == 9)
+					return 0;
 				continue;
 			}
 		}
 	}
 
-	// UC7 winning criteria
+	// winning criteria
 	public static boolean winningCondition() {
 		List<Integer> topRow = Arrays.asList(1, 2, 3);
 		List<Integer> midRow = Arrays.asList(4, 5, 6);
