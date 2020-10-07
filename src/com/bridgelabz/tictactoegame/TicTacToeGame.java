@@ -7,8 +7,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToeGame {
-	public static List<Integer> playerPositions=new ArrayList<>();
-	public static List<Integer> computerPositions=new ArrayList<>();
+	public static List<Integer> playerPositions = new ArrayList<>();
+	public static List<Integer> computerPositions = new ArrayList<>();
+
 	public static void main(String[] args) {
 		Scanner userInput = new Scanner(System.in);
 		char[] gameBoard = createGameBoard();
@@ -17,14 +18,28 @@ public class TicTacToeGame {
 		showBoard(gameBoard);
 		String checkFirstPlayer = tossing(userInput);
 		System.out.println("First Go: " + checkFirstPlayer);
-		boolean flag=true;
-		while(flag) {
-			int getUserMove = userMove(userInput, gameBoard, userLetter);
-			playerPositions.add(getUserMove);
-			int getComputerMove = computerMove(gameBoard, computerLetter);
-			computerPositions.add(getComputerMove);
-			flag=winningCondition();
-		}
+		if (checkFirstPlayer.equals("User"))
+			while (true) {
+				int getUserMove = userMove(userInput, gameBoard, userLetter);
+				playerPositions.add(getUserMove);
+				if(!winningCondition())
+					break;
+				int getComputerMove = computerMove(gameBoard, computerLetter);
+				computerPositions.add(getComputerMove);
+				if(!winningCondition())
+					break;
+			}
+		else
+			while (true) {
+				int getComputerMove = computerMove(gameBoard, computerLetter);
+				computerPositions.add(getComputerMove);
+				if(!winningCondition())
+					break;
+				int getUserMove = userMove(userInput, gameBoard, userLetter);
+				playerPositions.add(getUserMove);
+				if(!winningCondition())
+					break;
+			}
 	}
 
 	// Creating Game Board
@@ -88,7 +103,7 @@ public class TicTacToeGame {
 		else
 			return "Computer";
 	}
-	
+
 	// UC8 computer move
 	public static int computerMove(char[] gameBoard, char computerLetter) {
 		while (true) {
@@ -99,26 +114,25 @@ public class TicTacToeGame {
 				gameBoard[computerPosition] = computerLetter;
 				showBoard(gameBoard);
 				return computerPosition;
-			}
-			else {
+			} else {
 				System.out.println("Position already filled Renter the postion");
 				continue;
 			}
 		}
 	}
-	
+
 	// UC7 winning criteria
 	public static boolean winningCondition() {
-		List<Integer> topRow=Arrays.asList(1,2,3);
-		List<Integer> midRow=Arrays.asList(4,5,6);
-		List<Integer> bottomRow=Arrays.asList(7,8,9);
-		List<Integer> leftCol=Arrays.asList(1,4,7);
-		List<Integer> midCol=Arrays.asList(2,5,8);
-		List<Integer> rightCol=Arrays.asList(3,6,9);
-		List<Integer> leftDiagonal=Arrays.asList(1,5,9);
-		List<Integer> rightDiagonal=Arrays.asList(3,5,7);
-		
-		List<List> winningList=new ArrayList<>();
+		List<Integer> topRow = Arrays.asList(1, 2, 3);
+		List<Integer> midRow = Arrays.asList(4, 5, 6);
+		List<Integer> bottomRow = Arrays.asList(7, 8, 9);
+		List<Integer> leftCol = Arrays.asList(1, 4, 7);
+		List<Integer> midCol = Arrays.asList(2, 5, 8);
+		List<Integer> rightCol = Arrays.asList(3, 6, 9);
+		List<Integer> leftDiagonal = Arrays.asList(1, 5, 9);
+		List<Integer> rightDiagonal = Arrays.asList(3, 5, 7);
+
+		List<List> winningList = new ArrayList<>();
 		winningList.add(topRow);
 		winningList.add(midRow);
 		winningList.add(bottomRow);
@@ -127,16 +141,15 @@ public class TicTacToeGame {
 		winningList.add(rightCol);
 		winningList.add(rightDiagonal);
 		winningList.add(leftDiagonal);
-		
-		for(List l:winningList) {
-			if(playerPositions.containsAll(l)) {
+
+		for (List l : winningList) {
+			if (playerPositions.containsAll(l)) {
 				System.out.println("Player Won!!!");
 				return false;
-			}
-			else if(computerPositions.containsAll(l)) {
+			} else if (computerPositions.containsAll(l)) {
 				System.out.println("Computer Won!!!");
 				return false;
-			}	
+			}
 		}
 		return true;
 	}
