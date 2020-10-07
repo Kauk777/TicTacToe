@@ -71,7 +71,8 @@ public class TicTacToeGame {
 		Integer validCells[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 		while (true) {
 			System.out.println("Enter user position 1-9");
-			System.out.println("Enter the available corner position 1,3,7,9");
+			System.out.println("1. Enter the available corner position 1,3,7,9");
+			System.out.println("2. If corner not available then take centre 5");
 			int userPosition = userInput.nextInt();
 			if (Arrays.asList(validCells).contains(userPosition) && isPositionFree(gameBoard, userPosition)) {
 				gameBoard[userPosition] = userLetter;
