@@ -1,5 +1,6 @@
-package com.bridgelabz.tictactogame;
+package com.bridgelabz.tictactoegame;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TicTacToeGame {
@@ -9,8 +10,7 @@ public class TicTacToeGame {
 		char userLetter = chooseUserLetter(userInput);
 		char computerLetter=(userLetter=='X')? 'O' : 'X';
 		showBoard(gameBoard);
-		userMove(userInput,gameBoard,userLetter);
-		
+		int getUserMove=userMove(userInput,gameBoard,userLetter);
 	}
 	//Creating Game Board
 	public static char[] createGameBoard() {
@@ -34,15 +34,23 @@ public class TicTacToeGame {
 		System.out.println(" "+gameBoard[7]+"|"+gameBoard[8]+"|"+gameBoard[9]);
 	}
 	//UC4 User making move
-	public static void userMove(Scanner userInput, char[] gameBoard, char userLetter) {
+	public static int userMove(Scanner userInput, char[] gameBoard, char userLetter) {
+		Integer validCells[]= {1,2,3,4,5,6,7,8,9};
 		while(true) {
-			System.out.println("Enter user position");
+			System.out.println("Enter user position 1-9");
 			int userPosition=userInput.nextInt();
-			if(gameBoard[userPosition]==' ')
+			if(Arrays.asList(validCells).contains(userPosition) && isPositionFree(gameBoard,userPosition))
+			{
 				gameBoard[userPosition]=userLetter;
-			else
-				System.out.println("Position is already filled");
-			showBoard(gameBoard);
+				showBoard(gameBoard);
+				return userPosition;
+			}
+			else 
+				System.out.println("Position is already filled");		
 		}
+	}
+	//UC 5 checking empty positon
+	public static boolean isPositionFree(char[] gameBoard, int index) {
+		return gameBoard[index]==' ';
 	}
 }
