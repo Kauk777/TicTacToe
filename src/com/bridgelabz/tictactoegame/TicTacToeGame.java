@@ -10,46 +10,85 @@ public class TicTacToeGame {
 	public static List<Integer> playerPositions = new ArrayList<>();
 	public static List<Integer> computerPositions = new ArrayList<>();
 	public static int count = 0;
+	public static char choice = 'Y';
 
 	public static void main(String[] args) {
-		Scanner userInput = new Scanner(System.in);
-		char[] gameBoard = createGameBoard();
-		char userLetter = chooseUserLetter(userInput);
-		char computerLetter = (userLetter == 'X') ? 'O' : 'X';
-		showBoard(gameBoard);
-		String checkFirstPlayer = tossing(userInput);
-		System.out.println("First Go: " + checkFirstPlayer);
-		if (checkFirstPlayer.equals("User"))
-			while (true) {
-				int getUserMove = userMove(userInput, gameBoard, userLetter);
-				playerPositions.add(getUserMove);
-				if (!winningCondition())
-					break;
-				int getComputerMove = computerMove(gameBoard, computerLetter);
-				computerPositions.add(getComputerMove);
-				if (!winningCondition())
-					break;
-				if (count == 9) {
-					System.out.println("Game Tied!!");
-					break;
-				}
+		do {
+			Scanner userInput = new Scanner(System.in);
+			char[] gameBoard = createGameBoard();
+			char userLetter = chooseUserLetter(userInput);
+			char computerLetter = (userLetter == 'X') ? 'O' : 'X';
+			showBoard(gameBoard);
+			String checkFirstPlayer = tossing(userInput);
+			System.out.println("First Go: " + checkFirstPlayer);
+			if (checkFirstPlayer.equals("User"))
+				while (true) {
+					int getUserMove = userMove(userInput, gameBoard, userLetter);
+					playerPositions.add(getUserMove);
+					if (!winningCondition()) {
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
+					int getComputerMove = computerMove(gameBoard, computerLetter);
+					computerPositions.add(getComputerMove);
+					if (!winningCondition()) {
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
+					if (count == 9) {
+						System.out.println("Game Tied or Board filled!!");
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
 
-			}
-		else
-			while (true) {
-				int getComputerMove = computerMove(gameBoard, computerLetter);
-				computerPositions.add(getComputerMove);
-				if (!winningCondition())
-					break;
-				int getUserMove = userMove(userInput, gameBoard, userLetter);
-				playerPositions.add(getUserMove);
-				if (!winningCondition())
-					break;
-				if (count == 9) {
-					System.out.println("Game Tied or Board filled!!");
-					break;
 				}
-			}
+			else
+				while (true) {
+					int getComputerMove = computerMove(gameBoard, computerLetter);
+					computerPositions.add(getComputerMove);
+					if (!winningCondition()) {
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
+					int getUserMove = userMove(userInput, gameBoard, userLetter);
+					playerPositions.add(getUserMove);
+					if (!winningCondition()) {
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
+						
+					if (count == 9) {
+						System.out.println("Game Tied or Board filled!!");
+						System.out.println("Want another game enter Y/N");
+						choice = userInput.next().charAt(0);
+						playerPositions.clear();
+						computerPositions.clear();
+						count=0;
+						break;
+					}
+				}
+		} while (choice == 'Y');
+
 	}
 
 	// Creating Game Board
