@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TicTacToeGame {
 	public static void main(String[] args) {
 		char[] gameBoard=createGameBoard();
-		char playerSymbol=choosePlayerSymbol();
+		char playerSymbol=choosePlayerSymbol(); 
 		char computerSymbol=chooseComputerSymbol();
 	}
 	public static char[] createGameBoard() {
@@ -22,8 +22,8 @@ public class TicTacToeGame {
 	public static char chooseComputerSymbol() {
 		char playerSymbol=choosePlayerSymbol();
 		if(playerSymbol=='X')
-		return 'O';
+			return 'O';
 		else
-		return 'X';	
+			return 'X';	
 	}
 }
