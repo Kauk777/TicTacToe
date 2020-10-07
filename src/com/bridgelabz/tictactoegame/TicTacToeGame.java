@@ -1,6 +1,7 @@
 package com.bridgelabz.tictactoegame;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToeGame {
@@ -11,13 +12,8 @@ public class TicTacToeGame {
 		char computerLetter=(userLetter=='X')? 'O' : 'X';
 		showBoard(gameBoard);
 		int getUserMove=userMove(userInput,gameBoard,userLetter);
-		System.out.println("Enter next move");
-		int nextMove=userInput.nextInt();
-		if(isPositionFree(gameBoard,nextMove))
-			getUserMove=userMove(userInput,gameBoard,userLetter);
-		else
-			System.out.println("Position not free");
-		showBoard(gameBoard);
+		String checkFirstPlayer=tossing(userInput);
+		System.out.println(checkFirstPlayer);
 	}
 	//Creating Game Board
 	public static char[] createGameBoard() {
@@ -52,12 +48,26 @@ public class TicTacToeGame {
 				showBoard(gameBoard);
 				return userPosition;
 			}
-			else 
-				System.out.println("Position is already filled");		
+			else if(!Arrays.asList(validCells).contains(userPosition))
+				System.out.println("Position entered should be between 1-9");	
+			else
+				System.out.println("Position already filled");
 		}
 	}
 	//UC 5 checking empty positon
 	public static boolean isPositionFree(char[] gameBoard, int index) {
 		return gameBoard[index]==' ';
+	}
+	//Uc6
+	public static String tossing(Scanner userInput) {
+		System.out.println("1-Head and 2-Tail");
+		System.out.println("Choose head or tail");
+		int userToss=userInput.nextInt();		
+		Random rand=new Random();
+		int tossValue=rand.nextInt(2)+1;
+		if(tossValue==userToss)
+			return "User";
+		else
+			return "Computer";
 	}
 }
